@@ -10,19 +10,24 @@ import requests
 import time
 categoryCode_list=[101001001,101001002,101003002,101004002,101004003,
                    101004006,101004007,101004008,101006001,101007001]
+userId='b252b05d-974d-40ce-b6a4-1a791b132a9b'
+userProjectId='8bcb1671-216e-4cb8-ac6c-7a0cac4d9abe'
+cookie='Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205,1713945684,1714226821; Hm_lpvt_05399ccffcee10764eab39735c54698f=1714226821; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1714226902|1714226820'
+userName='8404df0f654f4f6f9c239658fe66c73f'
+xToken='215b01a3-92f7-4ddc-9883-3191a15c4a68'
 
 
 for categoryCode in categoryCode_list:
     header={
-    'Cookie':'Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205; Hm_lpvt_05399ccffcee10764eab39735c54698f=1713926205; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1713927010|1713926205'
+    'Cookie':cookie
     ,'User-Agent':
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
-    ,'X-Token':'66ee1be4-661e-414d-a90b-7376d8dcc577'
+    ,'X-Token':xToken
     }
     data={
         'tenantCode': 43000010,#constant,different for each user
-        'userId': 'f0e0eaf0-86e6-4a8d-aa07-d2aa34f5cca6',#constant,different for each user
-        'userProjectId': 'd566d88d-db54-424f-8571-5fb8efd788e0',#constant,different for each user
+        'userId': userId,#constant,different for each user
+        'userProjectId': userProjectId,#constant,different for each user
         'chooseType': 3,#constant,different for each user
         'categoryCode': categoryCode#different for each category
     }
@@ -35,6 +40,8 @@ for categoryCode in categoryCode_list:
     count=0
     for course_info in course_info_list:
         count+=1
+        if count!=1:
+            continue
         print(f'进度: {count}/{len(course_info_list)}')
         #提取userCourseId和resourceId
         userCourseId=course_info['userCourseId']
@@ -47,9 +54,9 @@ for categoryCode in categoryCode_list:
         url2=f'https://weiban.mycourse.cn/pharos/usercourse/study.do?timestamp={time_stamp2}'
         data2={
             'tenantCode': 43000010,
-            'userId': 'f0e0eaf0-86e6-4a8d-aa07-d2aa34f5cca6',
+            'userId': userId,
             'courseId': resourceId,
-            'userProjectId': 'd566d88d-db54-424f-8571-5fb8efd788e0'
+            'userProjectId': userProjectId
         }
         rsp2=requests.post(url2,headers=header,data=data2)
         print('study:',rsp2)
@@ -62,15 +69,15 @@ for categoryCode in categoryCode_list:
 
         #发送xxx请求，获取信息：无，作用：未知
         data3={
-            'userProjectId': 'd566d88d-db54-424f-8571-5fb8efd788e0',
-            'userId': 'f0e0eaf0-86e6-4a8d-aa07-d2aa34f5cca6',
+            'userProjectId': userProjectId,
+            'userId': userId,
             'courseId': resourceId,
             'projectType': 'special',
             'projectId': 'undefined',
             'protocol': 'true',
             'link': 20862,
             'weiban': 'weiban',
-            'userName': '73d7946d5fbd4ddc9b608292bad68c44'
+            'userName': userName
         }
         rsp4=requests.post(url4,headers=header,data=data3)
 
@@ -87,7 +94,7 @@ for categoryCode in categoryCode_list:
             '_': f'{time_stamp5}'
         }
         header5 = {
-            'Cookie': 'Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205; Hm_lpvt_05399ccffcee10764eab39735c54698f=1713926205; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1713927010|1713926205'
+            'Cookie': cookie
             , 'User-Agent':
                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
         }
@@ -100,3 +107,4 @@ for categoryCode in categoryCode_list:
             time.sleep(15)
         else:
             print('全部搞定！')
+            time.sleep(15)

@@ -5,3 +5,4 @@
 
 2.`python get_all_course.py`
 
+注：2024上半年课程测试成功

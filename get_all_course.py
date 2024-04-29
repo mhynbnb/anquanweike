@@ -8,14 +8,18 @@ Version :
 '''
 import requests
 import time
+import tqdm
 categoryCode_list=[101001001,101001002,101003002,101004002,101004003,
                    101004006,101004007,101004008,101006001,101007001]
-userId='b252b05d-974d-40ce-b6a4-1a791b132a9b'
-userProjectId='8bcb1671-216e-4cb8-ac6c-7a0cac4d9abe'
-cookie='Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205,1713945684,1714226821; Hm_lpvt_05399ccffcee10764eab39735c54698f=1714226821; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1714226902|1714226820'
-userName='8404df0f654f4f6f9c239658fe66c73f'
-xToken='215b01a3-92f7-4ddc-9883-3191a15c4a68'
+userId='fe872d4c-2655-48c7-9a76-a6a1b027b3ef'
+userProjectId='0204ef45-d848-423b-8050-6459843b8468'
+cookie='Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205,1713945684,1714226821,1714379748; Hm_lpvt_05399ccffcee10764eab39735c54698f=1714379821; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1714379821|1714379746'
+userName='ed9e00380a324d0a897e22e1f6a664b5'
+xToken='d0c810af-fdb5-4af8-91fb-8a679f67f22d'
 
+def sleep(seconds):
+    for s in tqdm.tqdm(range(seconds)):
+        time.sleep(1)
 
 for categoryCode in categoryCode_list:
     header={
@@ -40,8 +44,8 @@ for categoryCode in categoryCode_list:
     count=0
     for course_info in course_info_list:
         count+=1
-        if count!=1:
-            continue
+        # if count==1:
+        #     continue
         print(f'进度: {count}/{len(course_info_list)}')
         #提取userCourseId和resourceId
         userCourseId=course_info['userCourseId']
@@ -104,7 +108,7 @@ for categoryCode in categoryCode_list:
         print(f'{resourceName} 大概率搞定了！')
         if count!=len(course_info_list):
             print('15秒后进行下一个')
-            time.sleep(15)
+            sleep(15)
         else:
             print('全部搞定！')
-            time.sleep(15)
+            sleep(15)

@@ -9,3 +9,6 @@
 
 获取userId，userProjectId，userName：
 ![image](https://github.com/user-attachments/assets/b62e0c40-3e06-4eea-abc9-f724e271855c)
+
+获取X-Token：
+![image](https://github.com/user-attachments/assets/bf83fb75-111b-4b4b-a699-80055bae51fe)

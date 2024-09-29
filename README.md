@@ -7,5 +7,5 @@
 
 注：2024上半年课程测试成功
 
-获取教程userId，userProjectId，userName：
+获取userId，userProjectId，userName：
 ![image](https://github.com/user-attachments/assets/b62e0c40-3e06-4eea-abc9-f724e271855c)

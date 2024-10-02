@@ -7,6 +7,10 @@
 
 注：2024上半年课程测试成功
 
+获取categoryCode（一个类别一个码，以list形式写入代码，一般同一年的课程码不会变）：
+![image](https://github.com/user-attachments/assets/cbe6f669-2501-465b-adc2-2d80eaeb89e7)
+
+
 获取userId，userProjectId，userName：
 ![image](https://github.com/user-attachments/assets/b62e0c40-3e06-4eea-abc9-f724e271855c)
 ![image](https://github.com/user-attachments/assets/69575c68-ead7-453e-a592-ffd5a05a1bdd)

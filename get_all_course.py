@@ -1,78 +1,80 @@
-'''
+"""
 File : get_all_course.py
 Auther : MHY
 Created : 2024/4/24 11:20
-Last Updated : 
-Description : 
-Version : 
-'''
+Last Updated :
+Description :
+Version :
+"""
+
 import requests
 import time
 import tqdm
-categoryCode_list=[101001001,101001002,101003002,101004002,101004003,
-                   101004006,101004007,101004008,101006001,101007001]
-userId='fe872d4c-2655-48c7-9a76-a6a1b027b3ef'
-userProjectId='0204ef45-d848-423b-8050-6459843b8468'
-cookie='Hm_lvt_05399ccffcee10764eab39735c54698f=1713926205,1713945684,1714226821,1714379748; Hm_lpvt_05399ccffcee10764eab39735c54698f=1714379821; SERVERID=3e9e86f31a75ec1ee6c732efcaf93765|1714379821|1714379746'
-userName='ed9e00380a324d0a897e22e1f6a664b5'
-xToken='d0c810af-fdb5-4af8-91fb-8a679f67f22d'
+
+categoryCode_list = [101004007, 101004008, 101004013, 101005001, 101005003, 101007001]
+userId = ' '
+userProjectId = ' '
+cookie = (' ')
+userName = ' '
+xToken = ' '
+tenantCode = 0000000
+
 
 def sleep(seconds):
     for s in tqdm.tqdm(range(seconds)):
         time.sleep(1)
 
+
 for categoryCode in categoryCode_list:
-    header={
-    'Cookie':cookie
-    ,'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
-    ,'X-Token':xToken
+    header = {
+        'Cookie': cookie, 'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 '
+            'Safari/537.36 Edg/130.0.0.0', 'X-Token': xToken
     }
-    data={
-        'tenantCode': 43000010,#constant,different for each user
-        'userId': userId,#constant,different for each user
-        'userProjectId': userProjectId,#constant,different for each user
-        'chooseType': 3,#constant,different for each user
-        'categoryCode': categoryCode#different for each category
+    data = {
+        'tenantCode': tenantCode,  # constant,different for each user
+        'userId': userId,  # constant,different for each user
+        'userProjectId': userProjectId,  # constant,different for each user
+        'chooseType': 3,  # constant,different for each user
+        'categoryCode': categoryCode  # different for each category
     }
-    time_stamp=str(int(time.time()*1000)/1000)
-    url=f'https://weiban.mycourse.cn/pharos/usercourse/listCourse.do?timestamp={time_stamp}'
-    rsp1=requests.post(url,headers=header,data=data)#è·å–è¯¾ç¨‹åˆ—è¡¨
-    course_info_list=rsp1.json()['data']
+    time_stamp = str(int(time.time() * 1000) / 1000)
+    url = f'https://weiban.mycourse.cn/pharos/usercourse/listCourse.do?timestamp={time_stamp}'
+    rsp1 = requests.post(url, headers=header, data=data)  # »ñÈ¡¿Î³ÌÁĞ±í
+    course_info_list = rsp1.json()['data']
     print(course_info_list)
-    print(f'å…±æœ‰{len(course_info_list)}ä¸ªè¯¾ç¨‹')
-    count=0
+    print(f'¹²ÓĞ{len(course_info_list)}¸ö¿Î³Ì')
+    count = 0
     for course_info in course_info_list:
-        count+=1
-        # if count==1:
-        #     continue
-        print(f'è¿›åº¦: {count}/{len(course_info_list)}')
-        #æå–userCourseIdå’ŒresourceId
-        userCourseId=course_info['userCourseId']
-        resourceId=course_info['resourceId']
-        resourceName=course_info['resourceName']
-        print('resourceName:',resourceName)
-        print('userCourseId:',userCourseId, 'resourceId:',resourceId)
-        # å‘é€studyè¯·æ±‚ï¼Œè·å–ä¿¡æ¯ï¼šæ— 
+        count += 1
+        print(f'½ø¶È: {count}/{len(course_info_list)}')
+        # ÌáÈ¡userCourseIdºÍresourceId
+        userCourseId = course_info['userCourseId']
+        # print(f'userCourseId={userCourseId}')
+        resourceId = course_info['resourceId']
+        resourceName = course_info['resourceName']
+        # print('resourceName:', resourceName)
+        # print('userCourseId:', userCourseId, 'resourceId:', resourceId)
+        # ·¢ËÍstudyÇëÇó£¬»ñÈ¡ĞÅÏ¢£ºÎŞ
         time_stamp2 = str(int(time.time() * 1000) / 1000)
-        url2=f'https://weiban.mycourse.cn/pharos/usercourse/study.do?timestamp={time_stamp2}'
-        data2={
-            'tenantCode': 43000010,
+        url2 = f'https://weiban.mycourse.cn/pharos/usercourse/study.do?timestamp={time_stamp2}'
+        data2 = {
+            'tenantCode': tenantCode,
             'userId': userId,
             'courseId': resourceId,
             'userProjectId': userProjectId
         }
-        rsp2=requests.post(url2,headers=header,data=data2)
-        print('study:',rsp2)
-        #å‘é€getCourseUrlè¯·æ±‚ï¼Œè·å–ä¿¡æ¯ï¼šurl4ï¼Œmethod_token
+        rsp2 = requests.post(url2, headers=header, data=data2)
+        # print('study:', rsp2)
+        # ·¢ËÍgetCourseUrlÇëÇó£¬»ñÈ¡ĞÅÏ¢£ºurl4£¬method_token
         time_stamp3 = str(int(time.time() * 1000) / 1000)
-        url3=f'https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do?timestamp={time_stamp3}'
-        rsp3=requests.post(url3,headers=header,data=data2)
-        print(rsp3.json())
-        url4=rsp3.json()['data']
+        url3 = f'https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do?timestamp={time_stamp3}'
+        rsp3 = requests.post(url3, headers=header, data=data2)
+        # print(rsp3.json())
+        url4 = rsp3.json()['data']
 
-        #å‘é€xxxè¯·æ±‚ï¼Œè·å–ä¿¡æ¯ï¼šæ— ï¼Œä½œç”¨ï¼šæœªçŸ¥
-        data3={
+        # ·¢ËÍÇëÇó£¬»ñÈ¡´ğÌâÓÃµÄÏà¹Ø×ÊÔ´
+        data3 = {
             'userProjectId': userProjectId,
             'userId': userId,
             'courseId': resourceId,
@@ -83,32 +85,65 @@ for categoryCode in categoryCode_list:
             'weiban': 'weiban',
             'userName': userName
         }
-        rsp4=requests.post(url4,headers=header,data=data3)
+        rsp4 = requests.post(url4, headers=header, data=data3)
 
-        method_token=url4.split('&')[3].split('=')[1]
-        print('method_token:',method_token)
-
-        #finnal
-        url5 = f'https://weiban.mycourse.cn/pharos/usercourse/v1/{method_token}.do?'
-        time_stamp5 = int(time.time())
+        method_token = url4.split('&')[3].split('=')[1]
+        # print('method_token:', method_token)
+        sleep(15)
+        # finnal
+        url5 = (f'https://weiban.mycourse.cn/pharos/usercourse/getCaptcha.do?userCourseId={userCourseId}'
+                f'&userProjectId={userProjectId}&userId={userId}&tenantCode={tenantCode}')
         data5 = {
-            'callback': f'jQuery34107900224573703418_{time_stamp5}',
-            'userCourseId': userCourseId,
-            'tenantCode': 43000010,
-            '_': f'{time_stamp5}'
         }
         header5 = {
-            'Cookie': cookie
-            , 'User-Agent':
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
+            'Cookie': cookie, 'User-Agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 '
+                'Safari/537.36 Edg/130.0.0.0'
         }
 
         rsp5 = requests.post(url5, data=data5, headers=header5)
-        print(rsp5)
-        print(f'{resourceName} å¤§æ¦‚ç‡æå®šäº†ï¼')
-        if count!=len(course_info_list):
-            print('15ç§’åè¿›è¡Œä¸‹ä¸€ä¸ª')
-            sleep(15)
+        # print(f'rsp5={str(rsp5.json())}')
+        questionId = rsp5.json()['captcha']["questionId"]
+
+        # time.sleep(10)
+
+        url6 = (f'https://weiban.mycourse.cn/pharos/usercourse/checkCaptcha.do?userCourseId={userCourseId}'
+                f'&userProjectId={userProjectId}&userId={userId}&tenantCode={tenantCode}&questionId={questionId}')
+        print(url6)
+        data6 = {
+            # 'coordinateXYs': [{"x": 64, "y": 416}, {"x": 141, "y": 416}, {"x": 218, "y": 410}]
+            'coordinateXYs': '[{"x": 64, "y": 416}, {"x": 141, "y": 416}, {"x": 218, "y": 410}]'
+        }
+        header6 = {
+            'Cookie': cookie, 'User-Agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 '
+                'Safari/537.36 Edg/130.0.0.0'
+        }
+
+        rsp6 = requests.post(url6, data=data6, headers=header6)
+        # print(f'rsp6={rsp6.json()['data']['showText']}')
+
+        method_token = rsp6.json()['data']['methodToken']
+        url7 = f'https://weiban.mycourse.cn/pharos/usercourse/v2/{method_token}.do?'
+        time_stamp7 = int(time.time())
+        data7 = {
+            'callback': f'jQuery34107900224573703418_{time_stamp7}',
+            'userCourseId': userCourseId,
+            'tenantCode': tenantCode,
+            '_': f'{time_stamp7}'
+        }
+        header7 = {
+            'Cookie': cookie, 'User-Agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 '
+                'Safari/537.36 Edg/124.0.0.0'
+        }
+
+        rsp7 = requests.post(url7, data=data7, headers=header7)
+        print(rsp7.text)
+        print(f'{resourceName} ´ó¸ÅÂÊ¸ã¶¨ÁË£¡')
+        if count != len(course_info_list):
+            print('ÏÂÒ»¸ö')
+            sleep(1)
         else:
-            print('å…¨éƒ¨æå®šï¼')
-            sleep(15)
+            print('È«²¿¸ã¶¨£¡')
+            sleep(3)

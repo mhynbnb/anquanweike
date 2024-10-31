@@ -1,7 +1,7 @@
 代码简介：通过模拟浏览器请求，刷安全微课课程
 
 # 运行
-1.更改代码中Cookie，User-Agent，X-Token，userId，userProjectId，userName，tenantCode（浏览器登陆，按F12查看）
+1.更改代码中Cookie，User-Agent，X-Token，userId，userProjectId，~~userName~~，tenantCode（浏览器登陆，按F12查看）
 
 2.`python get_all_course.py`
 
@@ -11,7 +11,7 @@
 ![image](https://github.com/user-attachments/assets/cbe6f669-2501-465b-adc2-2d80eaeb89e7)
 
 
-获取userId，userProjectId，userName，tenantCode：
+获取userId，userProjectId，~~userName~~，tenantCode：
 ![image](https://github.com/user-attachments/assets/b62e0c40-3e06-4eea-abc9-f724e271855c)
 ![image](https://github.com/user-attachments/assets/69575c68-ead7-453e-a592-ffd5a05a1bdd)
 
